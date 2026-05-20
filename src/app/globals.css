@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  height: 100%;
+  background: #05070a;
+  color: #e7e5df;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+* { box-sizing: border-box; }
+
+/* Custom scrollbar — thin, dim, never visible until hover */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1a212c; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3a4658; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Subtle scanline overlay — off by default, toggleable */
+.scanlines::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.012) 0px,
+    rgba(255,255,255,0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 50;
+}
+
+/* Reticule corner brackets — used to frame critical UI */
+.bracket-tl::before, .bracket-tl::after,
+.bracket-br::before, .bracket-br::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: #d4a437;
+  border-style: solid;
+}
+.bracket-tl::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.bracket-br::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+/* Tabular numerics for monospace ints */
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+/* Subtle vignette overlay — focuses attention on the map without darkening it */
+.canvas-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(5, 7, 10, 0.45) 90%,
+    rgba(5, 7, 10, 0.85) 100%
+  );
+  z-index: 5;
+}
