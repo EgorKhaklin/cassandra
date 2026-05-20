@@ -140,13 +140,13 @@ npm run build       # production bundle
               └─────────────────┬────────────────────────┘
                                 │
                                 ▼
-              ┌──────────────────────────────────────────┐
+              ┌───────────────────────────────────────────┐
               │  React app                                │
               │  - useSentimentStream subscribes          │
               │  - Zustand store fans out updates         │
               │  - r3f Canvas reads state imperatively    │
               │    inside useFrame — NO React rerenders   │
-              └──────────────────────────────────────────┘
+              └───────────────────────────────────────────┘
 ```
 
 Full layered diagram in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
