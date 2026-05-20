@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Lighting tuned for Palantir-Gotham aesthetic:
+ * Lighting tuned for the Cassandra console aesthetic:
  * - Restrained ambient so base colors read clearly
  * - One key light from upper-right with mild warm tint
  * - A cool blue rim from the back for separation

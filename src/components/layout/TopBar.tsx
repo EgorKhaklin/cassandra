@@ -92,6 +92,7 @@ export function TopBar() {
       <div className="flex items-center gap-1 pl-4 border-l border-slate-800/80">
         <button
           onClick={() => setShowLabels(!showLabels)}
+          title="Toggle state code labels (CA, TX, ...)"
           className={`px-2 py-1 rounded-sm tracking-widest transition-colors ${
             showLabels
               ? 'text-gold border border-gold/30 bg-gold/5'
@@ -102,6 +103,7 @@ export function TopBar() {
         </button>
         <button
           onClick={() => setShowGrid(!showGrid)}
+          title="Toggle the floor reference grid under the country"
           className={`px-2 py-1 rounded-sm tracking-widest transition-colors ${
             showGrid
               ? 'text-gold border border-gold/30 bg-gold/5'

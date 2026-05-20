@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/screenshots/05-solo-map.png" alt="Cassandra — 3D US political sentiment intelligence map" width="100%" />
+<img src="docs/screenshots/01-hero.png" alt="Cassandra — 3D US political sentiment intelligence" width="100%" />
 
 # CASSANDRA
 
@@ -19,7 +19,7 @@
 
 ---
 
-Cassandra fuses **poll movement**, **news sentiment**, and **public-discourse signals** into a single geospatial picture and surfaces meaningful shifts as they happen. Built in the spirit of Palantir Gotham — high-signal, low-noise, dark-themed, information-dense. The aesthetic earns its pixels: every reticule, sigil, and glow encodes a real signal.
+Cassandra fuses **poll movement**, **news sentiment**, and **public-discourse signals** into a single geospatial picture and surfaces meaningful shifts as they happen. High-signal, low-noise, dark-themed, information-dense. The aesthetic earns its pixels: every reticule, sigil, and glow encodes a real signal.
 
 The whole pipeline runs as a single Next.js app: a deterministic simulation engine emits typed events over SSE, a Zustand store fans them out, and a `react-three-fiber` canvas updates 50 extruded state prisms imperatively at 60fps — without React re-rendering the scene.
 
@@ -27,19 +27,13 @@ The whole pipeline runs as a single Next.js app: a deterministic simulation engi
 
 ## ▾ Gallery
 
-### Hero — full HUD
+### Full HUD
 
-<img src="docs/screenshots/01-hero.png" alt="Cassandra default view with full HUD" width="100%" />
+<img src="docs/screenshots/02-default.png" alt="Cassandra default view with full HUD" width="100%" />
 
-50 states + DC as extruded prisms, color = partisan lean × intensity, height = engagement intensity. Left rail shows the national rollup (lean, EC balance, top movers, loudest issues) and Alerts Center. Right rail shows the selected state's detail and the live news stream. Bottom: national lean trajectory and rolling news ticker.
+50 states + DC as extruded prisms, color = partisan lean × intensity, height = engagement intensity. Left rail: national rollup (lean, EC balance, top movers, loudest issues) + Alerts Center. Right rail: state detail (populated on selection) + live news stream. Bottom: national lean trajectory and rolling news ticker.
 
-### Selected state — fly-to + selection beam
-
-<img src="docs/screenshots/02-selected-texas.png" alt="Camera fly-to with selection beam over Texas" width="100%" />
-
-Click a state (or ⌘K → type a name) and the camera arcs over to a 900ms easeInOutCubic fly-to. A gold beam pierces the selected state and a pulsing ring marks the centroid. The right rail populates with: lean readout, intra-session sparkline, issue salience bars, linked news, and source provenance.
-
-### Layer modes — three questions, one map
+### Three layer modes — one map, three questions
 
 <table>
   <tr>
@@ -48,30 +42,47 @@ Click a state (or ⌘K → type a name) and the camera arcs over to a 900ms ease
     <td align="center" width="33%"><strong>SURFACE</strong><br/><sub>height = political extremity</sub></td>
   </tr>
   <tr>
-    <td><img src="docs/screenshots/01-hero.png" alt="Extrusion mode" width="100%" /></td>
+    <td><img src="docs/screenshots/02b-extrusion.png" alt="Extrusion mode" width="100%" /></td>
     <td><img src="docs/screenshots/03-choropleth.png" alt="Choropleth mode" width="100%" /></td>
     <td><img src="docs/screenshots/04-surface.png" alt="Surface mode" width="100%" /></td>
   </tr>
 </table>
 
-### Solo Map mode — operator's full-screen view
+EXTRUSION answers *"where is the polity engaged?"* — height grows with intensity. CHOROPLETH answers *"how does the country lean?"* — flat color readout. SURFACE answers *"where is the polity polarized?"* — height grows with `|lean|`, so solid-red and solid-blue states rise tallest and swing states stay flat.
+
+### Solo Map — operator's full-canvas view
 
 <img src="docs/screenshots/05-solo-map.png" alt="Solo Map — full-canvas country view" width="100%" />
 
-One click on the `SOLO MAP` button in the top bar collapses every HUD panel, leaving the country to fill the canvas. Toast notifications still surface critical alerts at top-center; everything else is one chevron-click away.
+One click on `SOLO MAP` in the top bar collapses every HUD panel and leaves the country to fill the canvas. Toast notifications still surface critical alerts at top-center — silence them with the `MUTED` button. Every collapse is one chevron-click away from being restored.
+
+### Floor grid toggle — reference plane for distance
+
+<table>
+  <tr>
+    <td align="center" width="50%"><strong>GRID OFF</strong></td>
+    <td align="center" width="50%"><strong>GRID ON</strong></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/07-grid-off.png" alt="Grid off" width="100%" /></td>
+    <td><img src="docs/screenshots/08-grid-on.png" alt="Grid on" width="100%" /></td>
+  </tr>
+</table>
+
+The `GRID` button in the top bar toggles a two-layer reference grid (fine 1-unit cells + bold 10-unit quadrants) on the stage floor. Off = pure void; on = calibrated reference plane.
 
 ### Jump palette — instant state targeting
 
 <img src="docs/screenshots/06-palette.png" alt="Cmd-K search palette" width="100%" />
 
-`⌘K` from anywhere opens the palette. Type a code (`PA`), name fragment (`penn`), or even a partial match — arrow keys to navigate, Enter to commit. Each row shows the live partisan lean and EV count.
+`⌘K` from anywhere opens the palette. Type a code (`PA`) or name fragment (`penn`); arrow keys to navigate, Enter to commit. Each row shows the live partisan lean and EV count. Selecting a row fires a 900ms easeInOutCubic camera fly-to and pierces the state with a gold beam.
 
 ---
 
 ## ▾ Quickstart
 
 ```bash
-git clone https://github.com/<owner>/cassandra
+git clone https://github.com/EgorKhaklin/cassandra
 cd cassandra
 npm install
 npm run dev         # http://localhost:3939
@@ -98,7 +109,7 @@ npm run build       # production bundle
 | **Honest data presentation** | Every modeled metric carries a `Confidence` tag (HIGH/MED/LOW), every news item carries a `source` (`Sim` suffix in simulation mode), and every alert names the `rule` that fired. Provenance is a first-class field in the type system. |
 | **Three views, one map** | EXTRUSION / CHOROPLETH / SURFACE answer different questions — engagement, lean, extremity — with the same geometry. The active mode's meaning is captioned in the top bar. |
 | **Collapsible HUD** | Every panel has a chevron toggle that pins to the screen edge. `SOLO MAP` collapses all panels in one click. `MUTED` silences warning toasts. Everything is reversible. |
-| **Deterministic simulation** | The engine uses a seeded PRNG (`0xC1A55ED`) so the simulation reproduces frame-for-frame across reloads for QA and demos. Live mode swaps the simulation adapter; the consumer contract is unchanged. |
+| **Deterministic simulation** | The engine uses a seeded PRNG (`0xC1A55ED`) so the simulation reproduces frame-for-frame across reloads — useful for QA and demos. Live mode swaps the simulation adapter; the consumer contract is unchanged. |
 
 ---
 
@@ -237,6 +248,7 @@ cassandra/
 - Cmd-K search palette
 - Collapsible HUD with per-panel chevron toggles + Solo Map + Mute Warnings
 - 10-minute national-lean timeline backed by a server-side ring buffer
+- Two-layer reference grid (fine + major) toggleable from the top bar
 
 **Phase 2:**
 - Time scrubber: replay last N minutes from the ring buffer
@@ -266,4 +278,4 @@ See [`docs/DATA_SOURCING.md`](docs/DATA_SOURCING.md) for the full methodology, s
 
 MIT — see [LICENSE](LICENSE).
 
-Built by [VANTA / Egor Khaklin](https://github.com/) — *the Cassandra inheritance is taken seriously.*
+Built by [VANTA / Egor Khaklin](https://github.com/EgorKhaklin) — *the Cassandra inheritance is taken seriously.*
